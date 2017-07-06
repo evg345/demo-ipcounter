@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>ip list</title>
+        <meta charset="UTF-8"/>
+        <link th:href="@{/css/style.css}" rel="stylesheet" />
+    </head>
+
+    <body>
+        <h3>IP List</h3>
+
+        <div>
+            <table>
+                <tr>
+                    <th> #id </th> 
+                    <th> Subnet Class </th> 
+                    <th> IP Address </th> 
+                    <th> Count<br/><small>(fakeRandomDownloader)</small></th>
+                </tr>
+                <tr th:each="ipAddrEntity : ${dataPage.content}">
+                    <td th:text="${ipAddrEntity.id}">1</td>
+                    <td th:text="${ipAddrEntity.subnet}">A</td>
+                    <td th:text="${ipAddrEntity.ipAddress}">192.168.0.1</td>
+                    <td th:text="${ipAddrEntity.count}" class="right">99</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="table-pagination">
+            <ul class="pagination" th:if="${dataPage.totalElements gt 0}">
+                <li th:class="${dataPage.number eq 0} ? 'disabled' : ''">
+                    <a th:if="${not dataPage.first}" th:href="@{${'/list'}(pageIdx=${dataPage.number-1},pageSize=${dataPage.size})}">«</a>
+                    <a th:if="${dataPage.first}" href="javascript:void(0);">«</a>
+                </li>
+
+                <li th:each="pageNo : ${#numbers.sequence(0, dataPage.totalPages - 1)}" th:class="${dataPage.number eq pageNo}? 'pagination active' : ''">
+                    <a th:if="${dataPage.number  eq pageNo}" href="javascript:void(0);">
+                        <span th:text="${pageNo + 1}"></span>
+                    </a>
+                    <a th:if="${not (dataPage.number  eq pageNo)}" th:href="@{${'/list'}(pageIdx=${pageNo},pageSize=${dataPage.size})}">
+                        <span th:text="${pageNo + 1}"></span>
+                    </a>
+                </li>
+                
+                <li th:class="${dataPage.number + 1 ge dataPage.totalPages} ? 'disabled' : ''">
+                    <a th:if="${not dataPage.last}" th:href="@{${'/list'}(pageIdx=${dataPage.number+1},pageSize=${dataPage.size})}">»</a>
+                    <a th:if="${dataPage.last}" href="javascript:void(0);">»</a>
+                </li>
+            </ul>
+        </div>
+        <a href="/status">background worker status</a>
+    </body>
+</html>

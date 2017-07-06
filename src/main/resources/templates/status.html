@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>status</title>
+        <meta charset="UTF-8"/>
+        <meta http-equiv="refresh" th:attr="content=${2}" th:if="${isRunning}"/>
+    </head>
+    
+    <body>
+        <h3>Background worker status</h3>
+        
+        <p>is running: <span th:text="${isRunning}">FALSE</span> </p>
+        <p>downloaded while running: <span th:text="${downloadCount}">123</span> </p>
+        <p>last downloaded: <span th:text="${lastDownloadedIp}">0.0.0.0</span> </p>
+        <p>last error: <span th:text="${lastErrorMsg}">Exception</span> </p>
+        
+        <a href="/start">[START]</a>
+        <a href="/stop">[STOP]</a>
+        <a href="/list">[LIST]</a>
+    </body>
+</html>
