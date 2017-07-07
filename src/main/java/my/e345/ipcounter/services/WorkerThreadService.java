@@ -10,6 +10,7 @@ import java.util.PrimitiveIterator;
 import java.util.stream.LongStream;
 import my.e345.ipcounter.downloaders.AbstractDownloader;
 import my.e345.ipcounter.downloaders.FakeRandomDownloader;
+import my.e345.ipcounter.downloaders.YandexDownloader;
 import my.e345.ipcounter.model.Ip4SubnetEnum;
 import my.e345.ipcounter.model.SearchProvider;
 import my.e345.ipcounter.model.SearchedIpAddr;
@@ -38,7 +39,7 @@ public class WorkerThreadService implements Runnable {
     private Long searchProviderId;
     public boolean redownload = false;
 
-    private volatile Long downloadedCount = 0L;
+    private volatile long downloadedCount = 0L;
     private volatile String lastDownloadedIp;
     private volatile Exception lastError;;
 
@@ -75,7 +76,8 @@ public class WorkerThreadService implements Runnable {
         this.redownload = redownload;
 
         if (downloader == null) {
-            downloader = new FakeRandomDownloader();
+            //downloader = new FakeRandomDownloader();
+            downloader = new YandexDownloader();
         }
 
         workingThread = new Thread(this);
@@ -149,6 +151,7 @@ public class WorkerThreadService implements Runnable {
     public void run() {
         searchProviderId = null;
         lastError = null;
+        downloadedCount = 0L;
 
         try {
             // в каждом подклассе подсети IPv4
@@ -170,6 +173,10 @@ public class WorkerThreadService implements Runnable {
                     if (isRunning == false) {
                         LOG.info("FORCE STOP background worker thread");
                         return;
+                    }
+
+                    if (downloadedCount > 300) {
+                        throw new InterruptedException("Limited by 300 queries at one run");
                     }
 
                     googleIt(ip4addr);
