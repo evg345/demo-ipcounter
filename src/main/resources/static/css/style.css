@@ -6,7 +6,7 @@
 table, td, th{
     border-collapse: collapse;
     border: 1px solid black;
-    padding: 1em 1em;
+    padding: 3px 10px;
 }
 
 td.right {
