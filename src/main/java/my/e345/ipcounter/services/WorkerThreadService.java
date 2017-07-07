@@ -41,7 +41,7 @@ public class WorkerThreadService implements Runnable {
 
     private volatile long downloadedCount = 0L;
     private volatile String lastDownloadedIp;
-    private volatile Exception lastError;;
+    private volatile Exception lastError;
 
     private Thread workingThread;
     private AbstractDownloader downloader;

@@ -23,7 +23,7 @@
                     <td th:text="${ipAddrEntity.id}">1</td>
                     <td th:text="${ipAddrEntity.subnet}">A</td>
                     <td th:text="${ipAddrEntity.ipAddress}">192.168.0.1</td>
-                    <td th:text="${#numbers.formatInteger(ipAddrEntity.count,3, 'WHITESPACE')}" class="right">99</td>
+                    <td th:text="${#numbers.formatInteger(ipAddrEntity.count, 0, 'WHITESPACE')}" class="right">99</td>
                 </tr>
             </table>
         </div>

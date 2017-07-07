@@ -69,6 +69,12 @@ public class YandexDownloader extends AbstractDownloader {
                <found priority="all">206775197</found>
                     .....
             */
+            XPathExpression exprErr = xpath.compile("/yandexsearch/response/error/text()");
+            String errText = (String) exprErr.evaluate(doc, XPathConstants.STRING);
+            if (errText != null && "".equals(errText) == false) {
+                throw new IOException(errText);
+            }
+
             XPathExpression expr = xpath.compile("/yandexsearch/response/found[@priority='all']/text()");
             rez = (String) expr.evaluate(doc, XPathConstants.STRING);
 

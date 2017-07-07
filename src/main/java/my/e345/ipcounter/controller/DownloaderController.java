@@ -5,7 +5,10 @@
  */
 package my.e345.ipcounter.controller;
 
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Objects;
+import javax.servlet.http.HttpServletResponse;
 import my.e345.ipcounter.services.WorkerThreadService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -44,7 +47,7 @@ public class DownloaderController {
     public String getLastErrorMsg() {
         Exception ex = svcThreadMnr.getLastError();
         if (ex == null) {
-            return  null;
+            return null;
         }
         return ex.getMessage();
     }
